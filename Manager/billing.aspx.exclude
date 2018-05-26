@@ -1,0 +1,41 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="billing.aspx.cs" Inherits="Manager_billing" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <asp:UpdatePanel ID="upnl_repeater" runat="server" UpdateMode="Conditional">
+                            <ContentTemplate>
+                                <asp:Repeater ID="rpt_tables" runat="server" OnItemDataBound="rpt_tables_ItemDataBound">
+                                    <ItemTemplate>
+                                        <div class="col-md-4">
+                                            <div class="panel panel-info">
+                                                <div class="panel-heading">
+                                                    <h4 class="text-center">Table #<%#Eval("tableNumber") %></h4>
+                                                    <asp:HiddenField ID="hf_orderid" Value='<%# Eval("order_id") %>' runat="server" />
+                                                </div>
+                                                <ul class="list-group list-group-flush text-center">
+                                                    <asp:Repeater ID="rpt_items" runat="server">
+                                                        <ItemTemplate>
+                                                            <li class="list-group-item clearfix text-left"><%# Eval("itemname") %> <span class="pull-right badge"><%# Eval("qty") %> * <%# Eval("price") %> = <%# Eval("amount") %></span></li>
+                                                        </ItemTemplate>
+                                                    </asp:Repeater>
+                                                    <li class="list-group-item clearfix text-left">Total <span class="pull-right badge"><%# Eval("amount") %></span></li>
+                                                </ul>
+                                                <div class="panel-footer">
+                                                    <asp:LinkButton ID="lnkCheckout" OnClick="lnkCheckout_Click" CommandArgument='<%# Eval("order_id") %>' runat="server" class="btn btn-lg btn-block btn-info">Checkout</asp:LinkButton>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <asp:Timer runat="server" Interval="5000" ID="tm_list" OnTick="tm_list_Tick"></asp:Timer>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+    </form>
+</body>
+</html>
